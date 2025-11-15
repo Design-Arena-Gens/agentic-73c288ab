@@ -1,0 +1,610 @@
+:root {
+  color-scheme: light dark;
+  --bg-base: linear-gradient(145deg, #f4efe9 0%, #ebe1d6 46%, #f8f2ea 100%);
+  --bg-card: rgba(255, 255, 255, 0.78);
+  --bg-card-strong: rgba(255, 255, 255, 0.92);
+  --border-card: rgba(79, 60, 41, 0.16);
+  --text-primary: #2c1f16;
+  --text-secondary: rgba(44, 31, 22, 0.72);
+  --accent: #b88946;
+  --accent-soft: rgba(184, 137, 70, 0.16);
+  --glow: rgba(255, 214, 165, 0.4);
+  --shadow-soft: 0 20px 45px rgba(116, 92, 70, 0.18);
+  --card-width: clamp(180px, 18vw, 240px);
+  --card-height: calc(var(--card-width) * 1.618);
+}
+
+[data-theme="dark"] {
+  --bg-base: radial-gradient(circle at top, #231a2a 0%, #120c17 38%, #050308 100%);
+  --bg-card: rgba(18, 15, 28, 0.75);
+  --bg-card-strong: rgba(25, 20, 36, 0.92);
+  --border-card: rgba(178, 153, 255, 0.18);
+  --text-primary: #f6f0ff;
+  --text-secondary: rgba(201, 188, 229, 0.7);
+  --accent: #caa6ff;
+  --accent-soft: rgba(202, 166, 255, 0.16);
+  --glow: rgba(174, 133, 255, 0.32);
+  --shadow-soft: 0 24px 55px rgba(7, 4, 12, 0.56);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
+  width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent);
+  color: #100609;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(202, 166, 255, 0.36);
+  color: #fff;
+}
+
+.light-mist {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background: radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.35), transparent 40%),
+    radial-gradient(circle at 82% 12%, rgba(255, 224, 179, 0.28), transparent 45%),
+    radial-gradient(circle at 40% 80%, rgba(200, 155, 255, 0.3), transparent 54%);
+  filter: blur(20px);
+}
+
+[data-theme="dark"] .light-mist {
+  background: radial-gradient(circle at 12% 18%, rgba(143, 96, 255, 0.28), transparent 45%),
+    radial-gradient(circle at 72% 22%, rgba(255, 185, 220, 0.2), transparent 50%),
+    radial-gradient(circle at 44% 70%, rgba(65, 209, 255, 0.16), transparent 55%);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(115, 99, 138, 0.28);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(115, 99, 138, 0.5);
+}
+
+.page {
+  position: relative;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem) 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.page__branding {
+  max-width: 640px;
+}
+
+.page__eyebrow {
+  font-family: var(--font-display);
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.page__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+
+.page__subtitle {
+  margin-top: 1rem;
+  line-height: 1.65;
+  font-size: 1.05rem;
+  max-width: 48ch;
+  color: var(--text-secondary);
+}
+
+.page__controls {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.page__draw-button {
+  background: linear-gradient(135deg, var(--accent) 0%, rgba(255, 235, 205, 0.92) 100%);
+  color: #2b1400;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.9rem 2.4rem;
+  box-shadow: 0 18px 36px rgba(184, 137, 70, 0.2);
+  transition: box-shadow 0.4s ease;
+}
+
+[data-theme="dark"] .page__draw-button {
+  background: linear-gradient(135deg, rgba(202, 166, 255, 0.92), rgba(102, 70, 174, 0.92));
+  color: #140818;
+  box-shadow: 0 20px 40px rgba(97, 75, 171, 0.35);
+}
+
+.page__draw-button:hover {
+  box-shadow: 0 24px 55px rgba(184, 137, 70, 0.28);
+}
+
+[data-theme="dark"] .page__draw-button:hover {
+  box-shadow: 0 28px 60px rgba(97, 75, 171, 0.45);
+}
+
+.page__board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+.page__footer {
+  display: flex;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.theme-toggle {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-card-strong);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-3px);
+}
+
+.theme-toggle__icon {
+  font-size: 1.4rem;
+}
+
+.spread-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.spread-selector__item {
+  position: relative;
+  padding: 1.1rem 1.2rem;
+  border-radius: 18px;
+  background: var(--bg-card);
+  text-align: left;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  overflow: hidden;
+}
+
+.spread-selector__item.is-active {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.12);
+}
+
+.spread-selector__title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.spread-selector__description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.spread-selector__glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+  z-index: -1;
+}
+
+.seed-controls {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.seed-controls__label {
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.seed-controls__field {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.seed-controls__field input {
+  flex: 1;
+  padding: 0.85rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-card);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.seed-controls__field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(184, 137, 70, 0.22);
+}
+
+.seed-controls__random {
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  background: var(--bg-card-strong);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+}
+
+.seed-controls__hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.tarot-board {
+  position: relative;
+  padding: clamp(2rem, 6vw, 4rem);
+  border-radius: 28px;
+  background: var(--bg-card-strong);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.tarot-board__aura {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, var(--glow), transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15), transparent 60%);
+  opacity: 0.7;
+}
+
+.tarot-board__grid {
+  position: relative;
+  min-height: clamp(320px, 60vw, 600px);
+}
+
+.tarot-board__legend {
+  position: relative;
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  padding: 1.4rem 1.6rem;
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(8px);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .tarot-board__legend {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.tarot-board__legend h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.tarot-card-wrapper {
+  position: absolute;
+  width: var(--card-width);
+  height: var(--card-height);
+  transform-style: preserve-3d;
+}
+
+.tarot-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.tarot-card__face {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  padding: clamp(1rem, 2vw, 1.4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.tarot-card__face--back {
+  background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.15), transparent 70%),
+    linear-gradient(160deg, rgba(86, 62, 137, 0.95), rgba(21, 12, 36, 0.9));
+  transform: rotateY(180deg);
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-card__pattern {
+  position: relative;
+  width: 72%;
+  padding-bottom: 72%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 230, 173, 0.4), transparent 65%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px rgba(255, 230, 173, 0.24);
+}
+
+.tarot-card__sigil {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: rgba(255, 232, 200, 0.9);
+  text-shadow: 0 0 22px rgba(255, 223, 197, 0.6);
+}
+
+.tarot-card__halo {
+  position: absolute;
+  inset: 12%;
+  border-radius: 18px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), transparent 60%);
+  filter: blur(12px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.tarot-card__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  mix-blend-mode: screen;
+}
+
+.tarot-card__roman {
+  font-family: var(--font-display);
+}
+
+.tarot-card__orientation {
+  font-family: var(--font-display);
+}
+
+.tarot-card__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.2;
+  margin-top: auto;
+  color: rgba(28, 12, 6, 0.88);
+}
+
+[data-theme="dark"] .tarot-card__name {
+  color: rgba(247, 241, 255, 0.92);
+}
+
+.tarot-card__keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tarot-card__keywords span {
+  background: rgba(255, 255, 255, 0.28);
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+.tarot-card__description {
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: rgba(23, 12, 5, 0.82);
+}
+
+[data-theme="dark"] .tarot-card__description {
+  color: rgba(245, 238, 255, 0.72);
+}
+
+.tarot-card__suit {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(24, 12, 4, 0.62);
+}
+
+[data-theme="dark"] .tarot-card__suit {
+  color: rgba(240, 225, 255, 0.62);
+}
+
+.tarot-card__caption {
+  position: absolute;
+  bottom: -2.6rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.tarot-card__caption strong {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.ai-module {
+  border-radius: 24px;
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  background: var(--bg-card);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ai-module h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+
+.ai-module p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.ai-module__placeholder {
+  padding: 1rem 1.2rem;
+  border-radius: 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .ai-module__placeholder {
+  border-color: rgba(202, 166, 255, 0.34);
+  background: rgba(87, 62, 137, 0.16);
+}
+
+@media (max-width: 1024px) {
+  .page__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .theme-toggle {
+    align-self: flex-end;
+  }
+
+  .page__board {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --card-width: clamp(160px, 36vw, 210px);
+  }
+
+  .tarot-card__caption {
+    display: none;
+  }
+
+  .tarot-board__grid {
+    min-height: clamp(380px, 75vw, 520px);
+  }
+
+  .page {
+    padding: 2rem 1.4rem 3rem;
+  }
+
+  .page__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page__draw-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 580px) {
+  .spread-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .tarot-board__grid {
+    min-height: clamp(320px, 95vw, 480px);
+  }
+}
